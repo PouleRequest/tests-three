@@ -8,7 +8,7 @@
 		<meta name="description" content="Pretty colors, all of them">
 	</head>
 
-	<body>
+	<body style="margin:0;">
 
 		<div id="container">
 		</div>
@@ -17,7 +17,7 @@
 
 		<script type="text/javascript">
 			var scene = new THREE.Scene();
-			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 30000 );
+			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1800 );
 			var renderer = new THREE.WebGLRenderer();
 			renderer.setClearColor( 0x808080, 1);
 
@@ -27,7 +27,7 @@
 
 			
 			var cubeSize = 256,
-				gap = 2,
+				gap = 1,
 				particles = new THREE.Geometry(),
 				pMat = new THREE.PointCloudMaterial({
 					vertexColors: THREE.VertexColors,
@@ -40,7 +40,7 @@
 			for (var x = 0; x < cubeSize*gap; x+=gap) {
 				for (var y = 0; y < cubeSize*gap; y+=gap) {
 					for (var z = 0; z < cubeSize*gap; z+=gap) {
-						if(Math.floor((Math.random() * 1000000) + 1) > 990000) {
+						if(Math.floor((Math.random() * 1677216) + 1) > 1667216) {
 							colorz[i] = new THREE.Color();
 							colorz[i].setRGB(
 								((256/cubeSize)*(x/gap))/256,
@@ -64,9 +64,9 @@
 			camera.position.z = 800;
 			var render = function () {
 				requestAnimationFrame(render);
-				system.rotation.x += 0.005; 
-				system.rotation.y += 0.005; 
-				system.rotation.z += 0.005; 
+				system.rotation.x += 0.01; 
+				system.rotation.y += 0.01; 
+				system.rotation.z += -0.01; 
 				renderer.render(scene, camera);
 			}
 
