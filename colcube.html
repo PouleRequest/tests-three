@@ -19,6 +19,7 @@
 			var scene = new THREE.Scene();
 			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 30000 );
 			var renderer = new THREE.WebGLRenderer();
+			renderer.setClearColor( 0x808080, 1);
 
 
 			renderer.setSize( window.innerWidth, window.innerHeight );
@@ -26,7 +27,7 @@
 
 			
 			var cubeSize = 256,
-				gap = 3,
+				gap = 2,
 				particles = new THREE.Geometry(),
 				pMat = new THREE.PointCloudMaterial({
 					vertexColors: THREE.VertexColors,
@@ -41,7 +42,11 @@
 					for (var z = 0; z < cubeSize*gap; z+=gap) {
 						if(Math.floor((Math.random() * 1000000) + 1) > 990000) {
 							colorz[i] = new THREE.Color();
-							colorz[i].setRGB(((256/cubeSize)*(x/gap))/256, ((256/cubeSize)*(y/gap))/256, ((256/cubeSize)*(z/gap))/256);
+							colorz[i].setRGB(
+								((256/cubeSize)*(x/gap))/256,
+								((256/cubeSize)*(y/gap))/256,
+								((256/cubeSize)*(z/gap))/256
+							);
 							particles.vertices.push(new THREE.Vector3(x, y, z));
 							i++;
 						}
@@ -56,12 +61,12 @@
 			var system = new THREE.PointCloud(particles, pMat);
 
 			scene.add(system);
-			camera.position.z = 1200;
+			camera.position.z = 800;
 			var render = function () {
 				requestAnimationFrame(render);
-				system.rotation.x += 0.001; 
-				system.rotation.y += 0.001; 
-				system.rotation.z += 0.001; 
+				system.rotation.x += 0.005; 
+				system.rotation.y += 0.005; 
+				system.rotation.z += 0.005; 
 				renderer.render(scene, camera);
 			}
 
