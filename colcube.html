@@ -1,44 +1,24 @@
 <!doctype html>
 
-
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
 
 		<title>RGB cube</title>
 		<meta name="description" content="Pretty colors, all of them">
-		<meta name="author" content="SitePoint">
 	</head>
 
 	<body>
 
 		<div id="container">
 		</div>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r69/three.min.js"></script>
+		<script src="https://raw.githubusercontent.com/mrdoob/three.js/master/build/three.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-		<script src="https://raw.githubusercontent.com/mrdoob/three.js/master/examples/js/controls/FlyControls.js"></script>
 
 		<script type="text/javascript">
 			var scene = new THREE.Scene();
 			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 30000 );
 			var renderer = new THREE.WebGLRenderer();
-
-			/*controls = new THREE.(camera);
-			controls.movementSpeed = 0.1;
-			controls.lookSpeed = 0.001;
-			controls.lookVertical = true;*/
-
-			controls = new THREE.FlyControls( camera );
-			controls.movementSpeed = 100;
-			controls.domElement = container;
-			controls.rollSpeed = Math.PI / 24;
-			controls.autoForward = false;
-			controls.dragToLook = false;
-
-
-
-
-
 
 
 			renderer.setSize( window.innerWidth, window.innerHeight );
@@ -46,7 +26,7 @@
 
 			
 			var cubeSize = 256,
-				gap = 24,
+				gap = 3,
 				particles = new THREE.Geometry(),
 				pMat = new THREE.PointCloudMaterial({
 					vertexColors: THREE.VertexColors,
@@ -61,7 +41,7 @@
 					for (var z = 0; z < cubeSize*gap; z+=gap) {
 						if(Math.floor((Math.random() * 1000000) + 1) > 990000) {
 							colorz[i] = new THREE.Color();
-							colorz[i].setRGB( ((256/cubeSize)*(x/gap))/256, ((256/cubeSize)*(y/gap))/256, ((256/cubeSize)*(z/gap))/256);
+							colorz[i].setRGB(((256/cubeSize)*(x/gap))/256, ((256/cubeSize)*(y/gap))/256, ((256/cubeSize)*(z/gap))/256);
 							particles.vertices.push(new THREE.Vector3(x, y, z));
 							i++;
 						}
@@ -72,20 +52,17 @@
 			particles.applyMatrix(new THREE.Matrix4().makeTranslation(-(cubeSize*gap/2), -(cubeSize*gap/2), -(cubeSize*gap/2)));
 
 			particles.colors = colorz;
-			particles.size = 15;
 
 			var system = new THREE.PointCloud(particles, pMat);
-			//scene.fog = new THREE.FogExp2(0x000000, 0.0009);
 
 			scene.add(system);
 			camera.position.z = 1200;
-			var render = function () { 
-				requestAnimationFrame( render ); 
-				controls.update()
+			var render = function () {
+				requestAnimationFrame(render);
 				system.rotation.x += 0.001; 
 				system.rotation.y += 0.001; 
 				system.rotation.z += 0.001; 
-				renderer.render(scene, camera); 
+				renderer.render(scene, camera);
 			}
 
 			render();
