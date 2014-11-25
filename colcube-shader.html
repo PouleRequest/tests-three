@@ -1,0 +1,78 @@
+<!doctype html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+
+		<title>RGB cube</title>
+		<meta name="description" content="Pretty colors, all of them">
+	</head>
+
+	<body style="margin:0;">
+
+		<div id="container">
+		</div>
+		<script src="https://raw.githubusercontent.com/mrdoob/three.js/master/build/three.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+		<script type="text/javascript">
+			var scene = new THREE.Scene();
+			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1800 );
+			var renderer = new THREE.WebGLRenderer();
+			renderer.setClearColor( 0x808080, 1);
+
+
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			document.body.appendChild( renderer.domElement );
+
+			
+			var cubeSize = 256,
+				gap = 1,
+				particles = new THREE.Geometry(),
+				pMat = new THREE.PointCloudMaterial({
+					vertexColors: THREE.VertexColors,
+					size: 1
+				});
+
+			var colorz = [];
+			var i = 0;
+
+			for (var x = 0; x < cubeSize*gap; x+=gap) {
+				for (var y = 0; y < cubeSize*gap; y+=gap) {
+					for (var z = 0; z < cubeSize*gap; z+=gap) {
+						if(Math.floor((Math.random() * 1677216) + 1) > 1667216) {
+							colorz[i] = new THREE.Color();
+							colorz[i].setRGB(
+								((256/cubeSize)*(x/gap))/256,
+								((256/cubeSize)*(y/gap))/256,
+								((256/cubeSize)*(z/gap))/256
+							);
+							particles.vertices.push(new THREE.Vector3(x, y, z));
+							i++;
+						}
+					}
+				}
+			}
+
+			particles.applyMatrix(new THREE.Matrix4().makeTranslation(-(cubeSize*gap/2), -(cubeSize*gap/2), -(cubeSize*gap/2)));
+
+			particles.colors = colorz;
+
+			var system = new THREE.PointCloud(particles, pMat);
+
+			scene.add(system);
+			camera.position.z = 800;
+			var render = function () {
+				requestAnimationFrame(render);
+				system.rotation.x += 0.01; 
+				system.rotation.y += 0.01; 
+				system.rotation.z += -0.01; 
+				renderer.render(scene, camera);
+			}
+
+			render();
+		</script>
+
+
+	</body>
+</html>
