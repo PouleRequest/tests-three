@@ -28,11 +28,7 @@
 			
 			var cubeSize = 256,
 				gap = 1,
-				particles = new THREE.Geometry(),
-				pMat = new THREE.PointCloudMaterial({
-					vertexColors: THREE.VertexColors,
-					size: 1
-				});
+				particles = new THREE.Geometry();
 
 			var colorz = [];
 			var i = 0;
@@ -58,7 +54,7 @@
 
 			particles.colors = colorz;
 
-			var system = new THREE.PointCloud(particles, pMat);
+			var system = new THREE.PointCloud(particles);
 
 			scene.add(system);
 			camera.position.z = 800;
